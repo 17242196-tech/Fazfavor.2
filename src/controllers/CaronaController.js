@@ -30,57 +30,61 @@ class CaronaController {
 
     async store(req, res) {
 
-        const carona = await Carona.create(req.body);
+        const carona = await Carona.create({
 
-        return res.status(201).json({
-            message: 'Carona criada com sucesso!',
+            ...req.body,
+
+            usuario_id: req.userId
+
+        });
+
+        return res.json(carona);
+
+    }
+
+    async update(req, res) {
+
+        const { id } = req.params;
+
+        const carona = await Carona.findByPk(id);
+
+        if (!carona) {
+
+            return res.status(404).json({
+                message: 'Carona não encontrada'
+            });
+
+        }
+
+        await carona.update(req.body);
+
+        return res.json({
+            message: 'Carona atualizada com sucesso!',
             data: carona
         });
 
     }
-    async update(req, res) {
+    async destroy(req, res) {
 
-    const { id } = req.params;
+        const { id } = req.params;
 
-    const carona = await Carona.findByPk(id);
+        const carona = await Carona.findByPk(id);
 
-    if (!carona) {
+        if (!carona) {
 
-        return res.status(404).json({
-            message: 'Carona não encontrada'
+            return res.status(404).json({
+                message: 'Carona não encontrada'
+            });
+
+        }
+
+        await carona.destroy();
+
+        return res.json({
+            message: 'Carona removida com sucesso!'
         });
 
     }
-
-    await carona.update(req.body);
-
-    return res.json({
-        message: 'Carona atualizada com sucesso!',
-        data: carona
-    });
-
-}
-async destroy(req, res) {
-
-    const { id } = req.params;
-
-    const carona = await Carona.findByPk(id);
-
-    if (!carona) {
-
-        return res.status(404).json({
-            message: 'Carona não encontrada'
-        });
-
-    }
-
-    await carona.destroy();
-
-    return res.json({
-        message: 'Carona removida com sucesso!'
-    });
-
-}
 
 }
 

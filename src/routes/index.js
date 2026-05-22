@@ -1,3 +1,5 @@
+const SolicitacaoCaronaController = require('../controllers/SolicitacaoCaronaController');
+
 const authMiddleware = require('../middlewares/auth');// Import do auth de proteção das rotas menos o login
 
 const AuthController = require('../controllers/AuthController'); //Esta variável importa o AuthController(class)
@@ -33,6 +35,10 @@ routes.post('/v1/usuarios', UsuarioController.store);
 routes.put('/v1/usuarios/:id', UsuarioController.update);
 
 routes.delete('/v1/usuarios/:id', UsuarioController.destroy);
+
+routes.get('/v1/solicitacoes', SolicitacaoCaronaController.index);
+
+routes.post('/v1/solicitacoes', SolicitacaoCaronaController.store);
 
 
 module.exports = routes;

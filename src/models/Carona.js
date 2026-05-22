@@ -17,6 +17,11 @@ const Carona = sequelize.define('Carona', {
     destino: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+
+    usuario_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true
     }
 
 });
