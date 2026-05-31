@@ -40,6 +40,14 @@ routes.get('/v1/solicitacoes', SolicitacaoCaronaController.index);
 
 routes.post('/v1/solicitacoes', SolicitacaoCaronaController.store);
 
+routes.get('/v1/solicitacoes/:id', SolicitacaoCaronaController.show);
+
+routes.put('/v1/solicitacoes/:id', SolicitacaoCaronaController.update);
+
+routes.patch('/v1/solicitacoes/:id', SolicitacaoCaronaController.update);
+
+routes.delete('/v1/solicitacoes/:id', SolicitacaoCaronaController.delete);
+
 
 module.exports = routes;
 //Neste arquivo criaremos as rotas versionadas
