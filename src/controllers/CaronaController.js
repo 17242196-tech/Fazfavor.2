@@ -30,6 +30,8 @@ class CaronaController {
 
     async store(req, res) {
 
+        console.log('USER ID:', req.userId);
+
         const carona = await Carona.create({
 
             ...req.body,

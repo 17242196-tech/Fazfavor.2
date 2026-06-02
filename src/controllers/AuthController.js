@@ -60,6 +60,14 @@ class AuthController {
 
     }
 
+    async logout(req, res) {
+
+        return res.json({
+            message: 'Logout realizado com sucesso!'
+        });
+
+    }
+
 }
 
 module.exports = new AuthController();
