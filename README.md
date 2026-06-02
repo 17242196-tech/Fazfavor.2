@@ -6,6 +6,7 @@ Construída com Node.js, Express, Sequelize e PostgreSQL.
 bash
 # Clonar repositório
 git clone https://github.com/17242196-tech/Fazfavor.2.git
+
 cd Fazfavor.2
 
 # Instalar dependências
