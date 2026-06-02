@@ -39,8 +39,11 @@ Usuario.init({
 }, {
 
     sequelize,
-    modelName: 'Usuario',
+    modelName: 'Usuario', 
+    tableName: 'usuario',
+     timestamps: false  
 
+    ,
     hooks: {
 
         beforeCreate: async (usuario) => {

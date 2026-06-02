@@ -1,73 +1,58 @@
 const jwt = require('jsonwebtoken');
-
+const bcrypt = require('bcrypt');
 const authConfig = require('../config/auth');
-
 const Usuario = require('../models/Usuario');
 
 class AuthController {
+  // Login
+  async login(req, res) {
+    try {
+      const { email, senha } = req.body;
 
-    async login(req, res) {
+      // Busca usuário pelo email
+      const usuario = await Usuario.findOne({ where: { email } });
 
-        const { email, senha } = req.body;
+      if (!usuario) {
+        return res.status(401).json({ message: 'Usuário não encontrado' });
+      }
 
-        const usuario = await Usuario.findOne({
-            where: { email }
-        });
+      // Compara senha digitada com hash do banco
+      const senhaValida = await bcrypt.compare(senha, usuario.senha);
+      if (!senhaValida) {
+        return res.status(401).json({ message: 'Senha inválida' });
+      }
 
-        if (!usuario) {
+      // Gera token JWT
+      const token = jwt.sign(
+        { id: usuario.id, email: usuario.email },
+        authConfig.secret,
+        { expiresIn: authConfig.expiresIn }
+      );
 
-            return res.status(401).json({
-                message: 'Usuário não encontrado'
-            });
-
+      return res.json({
+        message: 'Login realizado com sucesso!',
+        token,
+        user: {
+          id: usuario.id,
+          nome: usuario.nome,
+          email: usuario.email
         }
-
-        const senhaValida = await usuario.checkPassword(senha);
-
-        if (!senhaValida) {
-
-            return res.status(401).json({
-                message: 'Senha inválida'
-            });
-
-        }
-
-        const token = jwt.sign(
-
-            { id: usuario.id },
-
-            authConfig.secret,
-
-            {
-                expiresIn: authConfig.expiresIn
-            }
-
-        );
-
-        return res.json({
-
-            message: 'Login realizado com sucesso!',
-
-            token,
-
-            user: {
-                id: usuario.id,
-                nome: usuario.nome,
-                email: usuario.email
-            }
-
-        });
-
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Erro no login', error: error.message });
     }
+  }
 
-    async logout(req, res) {
-
-        return res.json({
-            message: 'Logout realizado com sucesso!'
-        });
-
+  // Logout
+  async logout(req, res) {
+    try {
+      // Como JWT é stateless, basta responder sucesso
+      return res.json({ message: 'Logout realizado com sucesso!' });
+    } catch (error) {
+      return res.status(500).json({ message: 'Erro no logout', error: error.message });
     }
-
+  }
 }
 
 module.exports = new AuthController();

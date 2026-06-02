@@ -1,53 +1,38 @@
 const jwt = require('jsonwebtoken');
-
 const authConfig = require('../config/auth');
 
 module.exports = (req, res, next) => {
+  const authHeader = req.headers.authorization;
 
-    const authHeader = req.headers.authorization;
+  // Verifica se o header Authorization foi enviado
+  if (!authHeader) {
+    return res.status(401).json({ message: 'Token não informado' });
+  }
 
-    if (!authHeader) {
+  // Divide "Bearer token"
+  const parts = authHeader.split(' ');
 
-        return res.status(401).json({
-            message: 'Token não informado'
-        });
+  if (parts.length !== 2) {
+    return res.status(401).json({ message: 'Token inválido' });
+  }
 
+  const [scheme, token] = parts;
+
+  // Verifica se começa com "Bearer"
+  if (!/^Bearer$/i.test(scheme)) {
+    return res.status(401).json({ message: 'Token mal formatado' });
+  }
+
+  // Valida o token
+  jwt.verify(token, authConfig.secret, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: 'Token inválido' });
     }
 
-    const parts = authHeader.split(' '); //o split separa bearer do Token
+    // Se tudo certo, guarda o id do usuário no request
+    req.userId = decoded.id;
 
-    if (parts.length !== 2) {
-
-        return res.status(401).json({
-            message: 'Token inválido'
-        });
-
-    }
-
-    const [scheme, token] = parts;
-
-    if (!/^Bearer$/i.test(scheme)) {
-
-        return res.status(401).json({
-            message: 'Token mal formatado'
-        });
-
-    }
-
-    jwt.verify(token, authConfig.secret, (err, decoded) => {
-
-        if (err) {
-
-            return res.status(401).json({
-                message: 'Token inválido'
-            }); // O verify verifica se o token é válido //estano tudo certo a rota é liberada
-
-        } 
-
-        req.userId = decoded.id;
-
-        return next();
-
-    });
-
+    // Libera a rota
+    return next();
+  });
 };
