@@ -1,6 +1,4 @@
-Boa, Isabelle 🌟 — vamos atualizar o README com **todas as rotas** e também incluir a parte das **diferenças em relação ao anterior**, incluindo o detalhe do **hash automático no banco** (quando usamos `bcryptjs` para salvar senhas). Assim fica tudo documentado.
 
----
 
 # Fazfavor API
 
