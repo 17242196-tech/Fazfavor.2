@@ -17,6 +17,7 @@ npm run dev
 
 # Rodar servidor em modo produção
 npm start
+
 📌 Dependências
 express → servidor e rotas.
 
