@@ -1,6 +1,6 @@
 
 
-# Fazfavor API
+# Fazfavor API(algumas mudanças)
 
 API REST para gerenciamento de usuários, caronas, solicitações de carona e eventos.  
 Construída com **Node.js**, **Express**, **Sequelize** e **PostgreSQL**.
