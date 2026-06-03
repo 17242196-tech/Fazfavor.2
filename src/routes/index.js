@@ -15,7 +15,7 @@ const authMiddleware = require('../middlewares/auth');
 routes.post('/v1/register', UsuarioController.store);
 routes.post('/v1/login', AuthController.login);
 
-// 🔄 Rota de migração de senhas (executa uma vez)
+//🔄 Rota de migração de senhas (executa uma vez)
 routes.post('/v1/migrar-senhas', UsuarioController.migratePasswords);
 
 // Rotas protegidas (precisam de token)
@@ -53,6 +53,6 @@ routes.patch('/v1/eventos/:id', EventoController.update); // ✅ corrigido
 routes.delete('/v1/eventos/:id', EventoController.destroy);
 
 // Logout (já protegido pelo authMiddleware global)
-routes.post('/v1/logout', AuthController.logout);
+routes.post('/v1/logout', AuthController.logout); 
 
 module.exports = routes;
