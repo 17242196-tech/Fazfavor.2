@@ -8,11 +8,11 @@ const Carona = sequelize.define('Carona', {
     autoIncrement: true
   },
   motorista: {
-    type: DataTypes.STRING(20),
+    type: DataTypes.STRING(30),
     allowNull: false
   },
   origem: {
-    type: DataTypes.STRING(30),
+    type: DataTypes.STRING(20),
     allowNull: false
   },
   destino: {
@@ -23,12 +23,16 @@ const Carona = sequelize.define('Carona', {
     type: DataTypes.INTEGER,
     allowNull: false
   },
-  placa: {
-    type: DataTypes.STRING(10),   // ✅ placa como texto
+  evento_id: {
+    type: DataTypes.INTEGER,
     allowNull: false
   },
-  veiculo: {
-    type: DataTypes.STRING(30),
+  vagas_disponiveis: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  status: {
+    type: DataTypes.STRING(40),
     allowNull: false
   }
 }, {

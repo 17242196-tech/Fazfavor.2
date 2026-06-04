@@ -23,14 +23,16 @@ class CaronaController {
 
   async store(req, res) {
     try {
-      const { motorista, origem, destino, usuario_id, placa, veiculo } = req.body;
+      const { motorista, origem, destino, usuario_id, evento_id, vagas_disponiveis, status } = req.body;
+ 
       const carona = await Carona.create({
         motorista,
         origem,
         destino,
         usuario_id: usuario_id || req.userId,
-        placa,
-        veiculo
+         evento_id,
+         vagas_disponiveis,
+         status
       });
       return res.status(201).json({ message: 'Carona criada com sucesso!', data: carona });
     } catch (error) {
@@ -44,15 +46,18 @@ class CaronaController {
       const carona = await Carona.findByPk(id);
       if (!carona) return res.status(404).json({ message: 'Carona não encontrada' });
 
-      const { motorista, origem, destino, placa, veiculo, usuario_id } = req.body;
-      await carona.update({
-        motorista: motorista ?? carona.motorista,
-        origem: origem ?? carona.origem,
-        destino: destino ?? carona.destino,
-        placa: placa ?? carona.placa,
-        veiculo: veiculo ?? carona.veiculo,
-        usuario_id: usuario_id ?? carona.usuario_id
-      });
+     const { motorista, origem, destino, usuario_id, evento_id, vagas_disponiveis, status } = req.body;
+
+await carona.update({
+  motorista: motorista ?? carona.motorista,
+  origem: origem ?? carona.origem,
+  destino: destino ?? carona.destino,
+  usuario_id: usuario_id ?? carona.usuario_id,
+  evento_id: evento_id ?? carona.evento_id,
+  vagas_disponiveis: vagas_disponiveis ?? carona.vagas_disponiveis,
+  status: status ?? carona.status
+});
+
 
       return res.json({ message: 'Carona atualizada com sucesso!', data: carona });
     } catch (error) {
